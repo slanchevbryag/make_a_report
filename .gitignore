@@ -1,1 +1,6 @@
 ﻿env/
+config.py
+#tracks/
+.ipynb
+.ipynb_checkpoints
+__pycache__
