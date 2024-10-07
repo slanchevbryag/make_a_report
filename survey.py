@@ -1,6 +1,5 @@
 ﻿import coordinates
 import weather
-import re
 
 date = input("Укажите дату в формате yyyy-MM-dd: ")
 filepath_track = input("Укажите путь к файлу gtx: ")

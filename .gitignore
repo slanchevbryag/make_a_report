@@ -1,6 +1,7 @@
 ﻿env/
 config.py
-#tracks/
+tracks/
 .ipynb
 .ipynb_checkpoints
 __pycache__
+Janisjoki/
