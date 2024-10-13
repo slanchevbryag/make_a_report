@@ -1,8 +1,8 @@
 ﻿# Данные и настройки
-venv/
+/venv/
 config.py
-tracks/
-Janisjoki/
+/tracks/
+/Janisjoki/
 
 # Вспомогательные файлы
 .ipynb
