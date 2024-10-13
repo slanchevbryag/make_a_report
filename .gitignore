@@ -1,5 +1,5 @@
 ﻿# Данные и настройки
-env/
+venv/
 config.py
 tracks/
 Janisjoki/
