@@ -1,7 +1,13 @@
-﻿env/
+﻿# Данные и настройки
+env/
 config.py
 tracks/
+Janisjoki/
+
+# Вспомогательные файлы
 .ipynb
 .ipynb_checkpoints
+.docx
+
+# Кеш
 __pycache__
-Janisjoki/
