@@ -3,11 +3,16 @@
 config.py
 /tracks/
 /Janisjoki/
+day_2.gpx
 
 # Вспомогательные файлы
 .ipynb
 .ipynb_checkpoints
-.docx
+report.docx
+map.png
 
 # Кеш
 __pycache__
+
+# Другое
+ya_map.py
