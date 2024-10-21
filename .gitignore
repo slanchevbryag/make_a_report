@@ -1,9 +1,8 @@
 ﻿# Данные и настройки
 /venv/
 config.py
-/tracks/
 /Janisjoki/
-day_2.gpx
+# day_2.gpx
 
 # Вспомогательные файлы
 .ipynb

@@ -11,9 +11,9 @@ def getting_coordinats(filepath_track):
         with open(filepath_track, "r") as file:
             gpx = gpxpy.parse(file)
 
-        for p in gpx.walk(only_points=True):
+        for point in gpx.walk(only_points=True):
             first_point = staticmaps.create_latlng(
-                p.latitude, p.longitude)
+                point.latitude, point.longitude)
             break
 
         return first_point
