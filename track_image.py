@@ -6,6 +6,7 @@ def track_image(filepath_track, img_width=500, img_length=800, zoom=12):
 
     import gpxpy
     import staticmaps
+    import requests
 
     context = staticmaps.Context()
     context.set_tile_provider(staticmaps.tile_provider_OSM)
@@ -20,22 +21,27 @@ def track_image(filepath_track, img_width=500, img_length=800, zoom=12):
                 p.latitude, p.longitude) for p in segment.points]
             context.add_object(staticmaps.Line(line, width=3))
 
-    for p in gpx.walk(only_points=True):
-        start = staticmaps.create_latlng(p.latitude, p.longitude)
+    for point in gpx.walk(only_points=True):
+        start = staticmaps.create_latlng(point.latitude, point.longitude)
         marker = staticmaps.ImageMarker(
             start, "start.png", origin_x=27, origin_y=5)
         context.add_object(marker)
         break
 
-    for p in gpx.walk(only_points=True):
-        finish = staticmaps.create_latlng(p.latitude, p.longitude)
+    for point in gpx.walk(only_points=True):
+        finish = staticmaps.create_latlng(point.latitude, point.longitude)
     marker = staticmaps.ImageMarker(
         finish, "finish.png", origin_x=5, origin_y=35)
     context.add_object(marker)
 
-    image = context.render_cairo(img_width, img_length)
-    image.write_to_png("map.png")
+    try:
+
+        image = context.render_cairo(img_width, img_length)
+        image.write_to_png("map.png")
+
+    except requests.exceptions.ConnectionError:
+        print('Ошибка подключения к OpenStreetMap')
 
 
 if __name__ == '__main__':
-    track_image('1_day.gpx')
+    track_image('day_2.gpx')
