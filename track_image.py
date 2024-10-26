@@ -1,18 +1,21 @@
-def track_image(filepath_track, img_width=500, img_length=800, zoom=12):
+import gpxpy
+
+import requests
+
+import staticmaps
+
+
+def track_image(gpx_file_path, img_width=500, img_length=800, zoom=12):
     '''
     Эта функция создаёт изображение, включающее в себя участок карты,
     где проходит текущий трек и сам трек с точками старта и финиша.
     '''
 
-    import gpxpy
-    import staticmaps
-    import requests
-
     context = staticmaps.Context()
     context.set_tile_provider(staticmaps.tile_provider_OSM)
     context.set_zoom(zoom)
 
-    with open(filepath_track, "r") as file:
+    with open(gpx_file_path, "r") as file:
         gpx = gpxpy.parse(file)
 
     for track in gpx.tracks:
@@ -22,16 +25,16 @@ def track_image(filepath_track, img_width=500, img_length=800, zoom=12):
             context.add_object(staticmaps.Line(line, width=3))
 
     for point in gpx.walk(only_points=True):
-        start = staticmaps.create_latlng(point.latitude, point.longitude)
+        start_point = staticmaps.create_latlng(point.latitude, point.longitude)
         marker = staticmaps.ImageMarker(
-            start, "start.png", origin_x=27, origin_y=5)
+            start_point, "start.png", origin_x=27, origin_y=5)
         context.add_object(marker)
         break
 
     for point in gpx.walk(only_points=True):
-        finish = staticmaps.create_latlng(point.latitude, point.longitude)
+        finish_point = staticmaps.create_latlng(point.latitude, point.longitude)
     marker = staticmaps.ImageMarker(
-        finish, "finish.png", origin_x=5, origin_y=35)
+        finish_point, "finish.png", origin_x=5, origin_y=35)
     context.add_object(marker)
 
     try:

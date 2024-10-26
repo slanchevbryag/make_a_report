@@ -2,13 +2,14 @@
 /venv/
 config.py
 /Janisjoki/
-# day_2.gpx
+.vscode
 
 # Вспомогательные файлы
 .ipynb
 .ipynb_checkpoints
-report.docx
+*.docx
 map.png
+/test_files/
 
 # Кеш
 __pycache__

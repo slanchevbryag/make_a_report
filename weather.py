@@ -1,8 +1,9 @@
-﻿import requests
-import config
+﻿import config
+
+import requests
 
 
-def weather_by_terrain(point_coordinates, date):
+def weather_by_terrain(point_coordinats, date):
     '''
     Эта функция делает запрос на сайт worldweatheronline.com,
     используя дату и координаты, и из полученных данных отбирает
@@ -11,10 +12,10 @@ def weather_by_terrain(point_coordinates, date):
     '''
     params = {
         "key": config.API_KEY,
-        "q": point_coordinates,
+        "q": point_coordinats,
         "date": date,
         "format": "json",
-        "lang": "ru"
+        "lang": "ru",
     }
     requests_of_weather = requests.get(config.weather_url, params=params)
     requests_of_weather.raise_for_status()
@@ -38,4 +39,4 @@ def weather_by_terrain(point_coordinates, date):
 
 
 if __name__ == '__main__':
-    print(weather_by_terrain("54.497125,38.801394", "2024-07-08"))
+    print(weather_by_terrain("61.832192,30.933809", "2021-01-03"))

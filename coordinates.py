@@ -1,22 +1,23 @@
 ﻿import gpxpy
+
 import staticmaps
 
 
-def getting_coordinats(filepath_track):
+def get_starting_coordinates(gpx_file_path):
     '''
     Эта функция получает координаты начальной точки трека
     из файла .gpx
     '''
     try:
-        with open(filepath_track, "r") as file:
+        with open(gpx_file_path, "r") as file:
             gpx = gpxpy.parse(file)
 
         for point in gpx.walk(only_points=True):
-            first_point = staticmaps.create_latlng(
+            starting_point = staticmaps.create_latlng(
                 point.latitude, point.longitude)
             break
 
-        return first_point
+        return starting_point
 
     except FileNotFoundError:
         print('Файл не найден')
@@ -24,4 +25,4 @@ def getting_coordinats(filepath_track):
 
 
 if __name__ == '__main__':
-    print(getting_coordinats('1_day.gpx'))
+    print(get_starting_coordinates('1_day.gpx'))

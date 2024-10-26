@@ -1,11 +1,13 @@
+import docx
+from docx.shared import Mm
+
+import utilities.float_img as float_img
+
+
 def print_to_doc(weather_and_astro, date):
     """
     Эта функция создаёт документ с отчётом.
     """
-
-    import docx
-    from docx.shared import Mm
-    import float_img
 
     doc = docx.Document()
 
@@ -14,15 +16,15 @@ def print_to_doc(weather_and_astro, date):
     doc.paragraphs[1].runs[0].add_break()
 
     try:
-        map = doc.add_paragraph()
+        mini_map = doc.add_paragraph()
         float_img.add_float_picture(
-            map, "map.png", width=Mm(70), pos_x=Mm(30), pos_y=Mm(60)
+            mini_map, "map.png", width=Mm(70), pos_x=Mm(30), pos_y=Mm(60),
         )
     except FileNotFoundError:
         print('Файл не найден')
-        map = doc.add_paragraph()
+        mini_map = doc.add_paragraph()
         float_img.add_float_picture(
-            map, "dead_smiley.png", width=Mm(70), pos_x=Mm(30), pos_y=Mm(60)
+            mini_map, "dead_smiley.png", width=Mm(70), pos_x=Mm(30), pos_y=Mm(60),
         )
 
     par3 = doc.add_paragraph("  Дата: ")

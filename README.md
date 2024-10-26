@@ -19,7 +19,7 @@ pip install -r requirements.txt
 Создайте файл config.py и создайте в нём базовые переменные:
 
 ```
-API_KEY = "45dd4fd4cac442179e583738240110"
+API_KEY = "Ваш API ключ с сайта worldweatheronline.com"
 weather_url = "http://api.worldweatheronline.com/premium/v1/past-weather.ashx"
 ```
 
