@@ -1,10 +1,19 @@
 ﻿# Данные и настройки
+<<<<<<< HEAD
 venv/
 config.py
 tracks/
 Janisjoki/
 
 # Вспомогательные
+=======
+/venv/
+config.py
+/tracks/
+/Janisjoki/
+
+# Вспомогательные файлы
+>>>>>>> cd0c4ef30ed2b84d21112b0e58715d6c2aff57ae
 .ipynb
 .ipynb_checkpoints
 .docx
