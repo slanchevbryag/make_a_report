@@ -1,7 +1,6 @@
 ﻿# Данные и настройки
 /venv/
 config.py
-/Janisjoki/
 .vscode
 setup.cfg
 
@@ -10,7 +9,7 @@ setup.cfg
 .ipynb_checkpoints
 *.docx
 map.png
-/test_files/
+*.txt
 
 # Кеш
 __pycache__
