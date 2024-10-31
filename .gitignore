@@ -2,7 +2,7 @@
 /venv/
 config.py
 .vscode
-setup.cfg
+*.cfg
 
 # Вспомогательные файлы
 .ipynb

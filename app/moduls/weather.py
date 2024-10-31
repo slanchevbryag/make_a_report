@@ -4,28 +4,13 @@ import config
 
 import requests
 
-<<<<<<< HEAD:weather.py
-def weather_by_terrain(point_coordinates, date):
-    '''
-<<<<<<< HEAD
-    Эта функция делает запрос на сайт www.worldweatheronline.com,
-    используя дату и координаты места.
-    Из полученных данных формирует словарь с астрономическими
-    данными, данными о max и min температуре и погодными явлениями.
-=======
-=======
 
 def weather_by_terrain(point_coordinats: str, date: str) -> dict[str, Any]:
     '''
->>>>>>> feature/weather:app/moduls/weather.py
     Эта функция делает запрос на сайт worldweatheronline.com,
     используя дату и координаты, и из полученных данных отбирает
     в словарь данные об астрономии, максимальной и минимальной
     температурах, погодных явлениях.
-<<<<<<< HEAD:weather.py
->>>>>>> cd0c4ef30ed2b84d21112b0e58715d6c2aff57ae
-=======
->>>>>>> feature/weather:app/moduls/weather.py
     '''
     params = {
         "key": config.API_KEY,

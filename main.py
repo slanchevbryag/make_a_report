@@ -1,4 +1,4 @@
-﻿﻿import re
+﻿import re
 import sys
 
 import app.moduls.coordinates as coordinates
