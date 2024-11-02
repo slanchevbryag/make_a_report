@@ -37,7 +37,7 @@ def get_audio_files(audio_file_path: str, date: str) -> list:
     return audio_files, audio_files_with_date
 
 
-def create_a_draft(recognized_audio_files: list, date: str) -> None:
+def create_a_draft(recognized_audio_files: list) -> None:
     '''
     Эта функция передаёт поочереди файлы с аудио заметками из полученного списка
     в функцию transcription и помещает полученный текст в файл черновика.

@@ -1,9 +1,11 @@
 ﻿import gpxpy
 
+import s2sphere
+
 import staticmaps
 
 
-def get_starting_coordinates(gpx_file_path: str):
+def get_starting_coordinates(gpx_file_path: str) -> s2sphere.LatLng:
     '''
     Эта функция получает координаты начальной точки трека
     из файла .gpx
@@ -22,7 +24,3 @@ def get_starting_coordinates(gpx_file_path: str):
     except FileNotFoundError:
         print('Файл не найден')
         return None
-
-
-if __name__ == '__main__':
-    print(get_starting_coordinates('test_files/1_day.gpx'))

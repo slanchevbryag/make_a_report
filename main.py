@@ -1,16 +1,19 @@
-﻿import re
+﻿import os
+import re
+import shutil
 import sys
 
-import app.moduls.coordinates as coordinates
-import app.moduls.print_to_doc as print_to_doc
-import app.moduls.track_image as track_image
-import app.moduls.weather as weather
+from app.moduls.coordinates import get_starting_coordinates
 from app.moduls.draft import create_a_draft, get_audio_files, get_user_notes
+from app.moduls.foto import get_foto
+from app.moduls.print_to_doc import print_foto, print_travel_notes, print_weather
+from app.moduls.track_image import create_track_image
+from app.moduls.weather import weather_by_terrain
 
 date = input("Укажите дату в формате yyyy-MM-dd: ")
 gpx_file_path = input("Укажите путь к файлу gpx: ")
 
-starting_point = coordinates.get_starting_coordinates(gpx_file_path)
+starting_point = get_starting_coordinates(gpx_file_path)
 
 if starting_point is None:
     sys.exit(1)
@@ -18,7 +21,7 @@ if starting_point is None:
 starting_point = re.findall(r'\d{2}\.\d{6}', str(starting_point))
 starting_point = ','.join(starting_point)
 
-weather_and_astro = weather.weather_by_terrain(starting_point, date)
+weather_and_astro = weather_by_terrain(starting_point, date)
 
 print('Настройки миниатюры по-умолчанию ширина 500, длина 800, приближение 12')
 thumbnail_sett = input("Хотите изменить настройки миниатюры карты? да/нет: ")
@@ -34,7 +37,7 @@ else:
     img_length = 800
     zoom = 12
 
-track_image.create_track_image(gpx_file_path, img_width, img_length, zoom)
+create_track_image(gpx_file_path, img_width, img_length, zoom)
 
 while thumbnail_sett:
     thumbnail_sett = input("Вам нравиться или хотите что-то изменить? да/нет: ")
@@ -47,12 +50,12 @@ while thumbnail_sett:
             f"Укажите длинну миниатюры карты (сейчас {img_length}): "))
         zoom = int(input(
             f"Укажите величину приближения карты (сейчас {zoom}): "))
-        track_image.create_track_image(gpx_file_path, img_width, img_length, zoom)
+        create_track_image(gpx_file_path, img_width, img_length, zoom)
 
     else:
         break
 
-print_to_doc.print_weather(weather_and_astro, date, img_width, img_length)
+print_weather(weather_and_astro, date, img_width, img_length)
 
 audio_file_path = input("Укажите путь к файлам аудио заметок: ")
 
@@ -60,7 +63,7 @@ list_audio_files = get_audio_files(audio_file_path, date)
 
 if len(list_audio_files) == 2:
     recognized_audio_files = list_audio_files[1]
-    create_a_draft(recognized_audio_files, date)
+    create_a_draft(recognized_audio_files)
 
 else:
 
@@ -74,11 +77,37 @@ else:
         if trake_notes is None:
             continue
         else:
-            create_a_draft(trake_notes, date)
+            create_a_draft(trake_notes)
             break
 
 print('Откройте файл draft и сделайти правки в черновике.')
 draft_edits = input('Вы готовы внести ваши путевые заметки в отчёт? да/нет: ')
 
 if draft_edits.lower() == "да":
-    print_to_doc.print_travel_notes(img_width, img_length)
+    print_travel_notes(img_width, img_length)
+
+path_to_foto = input("Укажите путь к файлам с фото: ")
+
+list_of_fotofiles = get_foto(path_to_foto, date)
+
+os.makedirs('temp', exist_ok=True)
+
+if list_of_fotofiles is None:
+    print("Добавьте файлы в папку temp в ручную")
+
+num_file = 1
+while num_file <= len(list_of_fotofiles):
+    for fotofile in list_of_fotofiles:
+        temp_path = os.path.join('temp', f'{num_file}.jpg')
+        shutil.copy2(fotofile, temp_path)
+        num_file += 1
+
+print("В папке temp оставьте только те фото, которые хотите добавить в отчёт")
+done_img = input("Вы готовы добавить фото в отчёт да/нет: ")
+
+if done_img.lower() == "да":
+    print_foto()
+else:
+    print("Фото не занесены в отчёт")
+
+shutil.rmtree("temp")

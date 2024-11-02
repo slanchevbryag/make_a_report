@@ -44,7 +44,3 @@ def create_track_image(gpx_file_path: str, img_width: int = 500, img_length: int
 
     except requests.exceptions.ConnectionError:
         print('Ошибка подключения к OpenStreetMap')
-
-
-if __name__ == '__main__':
-    create_track_image('day_2.gpx')

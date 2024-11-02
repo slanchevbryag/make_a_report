@@ -38,7 +38,3 @@ def weather_by_terrain(point_coordinats: str, date: str) -> dict[str, Any]:
                 return weather_and_astro
             except (IndexError, TypeError):
                 return False
-
-
-if __name__ == '__main__':
-    print(weather_by_terrain("61.832192,30.933809", "2021-01-03"))

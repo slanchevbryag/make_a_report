@@ -1,8 +1,10 @@
+import os
 from typing import Any
 
 from app.utilities import float_img
 
 import docx
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Mm
 
 
@@ -80,5 +82,38 @@ def print_travel_notes(img_width: int, img_length: int) -> None:
 
     par_draft = doc.add_paragraph()
     par_draft.add_run(draft)
+
+    doc.save("report.docx")
+
+
+def print_foto(temp_path: str = "temp") -> None:
+    '''
+    Эта функция добавляет отобранные пользователем фото в отчёт.
+    '''
+
+    doc = docx.Document("report.docx")
+
+    foto_in_temp = []
+    try:
+
+        for file_in_dir in os.listdir(path=temp_path):
+            foto_in_temp.append(file_in_dir)
+
+    except FileNotFoundError:
+        print('Файлы не найдены')
+
+    foto_in_temp.sort()
+
+    try:
+        for num_foto in range(0, len(foto_in_temp), 2):
+            par_foto = doc.add_paragraph()
+            par_foto.alignment = WD_ALIGN_PARAGRAPH.LEFT
+            run1_foto = par_foto.add_run()
+            run1_foto.add_picture(os.path.join('temp', foto_in_temp[num_foto]), width=Mm(69))
+
+            run2_foto = par_foto.add_run()
+            run2_foto.add_picture(os.path.join("temp", foto_in_temp[num_foto+1]), width=Mm(69))
+    except IndexError:
+        pass
 
     doc.save("report.docx")

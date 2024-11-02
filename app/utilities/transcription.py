@@ -11,7 +11,3 @@ def get_travel_notes(audio_file: str) -> str:
 
     travel_note = model.transcribe(audio_file)
     return travel_note["text"]
-
-
-if __name__ in '__main__':
-    print(get_travel_notes('test_files/audio.m4a'))
