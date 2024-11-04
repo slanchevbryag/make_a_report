@@ -22,7 +22,6 @@ def weather_by_terrain(point_coordinats: str, date: str) -> dict[str, Any]:
     requests_of_weather = requests.get(config.weather_url, params=params)
     requests_of_weather.raise_for_status()
     weather = requests_of_weather.json()
-
     if "data" in weather:
         weather_data = weather["data"].get("weather", [{}])[0]
         if all(key in weather_data for key in ["astronomy",

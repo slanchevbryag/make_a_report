@@ -1,11 +1,7 @@
 ﻿import gpxpy
 
-import s2sphere
 
-import staticmaps
-
-
-def get_starting_coordinates(gpx_file_path: str) -> s2sphere.LatLng:
+def get_starting_coordinates(gpx_file_path: str) -> float:
     '''
     Эта функция получает координаты начальной точки трека
     из файла .gpx
@@ -15,11 +11,10 @@ def get_starting_coordinates(gpx_file_path: str) -> s2sphere.LatLng:
             gpx = gpxpy.parse(file)
 
         for point in gpx.walk(only_points=True):
-            starting_point = staticmaps.create_latlng(
-                point.latitude, point.longitude)
-
+            starting_lat = point.latitude
+            starting_long = point.longitude
             break
-        return starting_point
+        return starting_lat, starting_long
 
     except FileNotFoundError:
         print('Файл не найден')

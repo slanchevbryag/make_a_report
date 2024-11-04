@@ -1,5 +1,4 @@
 ﻿import os
-import re
 import shutil
 import sys
 
@@ -18,8 +17,7 @@ starting_point = get_starting_coordinates(gpx_file_path)
 if starting_point is None:
     sys.exit(1)
 
-starting_point = re.findall(r'\d{2}\.\d{6}', str(starting_point))
-starting_point = ','.join(starting_point)
+starting_point = ",".join(str(elem) for elem in starting_point)
 
 weather_and_astro = weather_by_terrain(starting_point, date)
 
@@ -61,12 +59,12 @@ audio_file_path = input("Укажите путь к файлам аудио за
 
 list_audio_files = get_audio_files(audio_file_path, date)
 
-if len(list_audio_files) == 2:
-    recognized_audio_files = list_audio_files[1]
-    create_a_draft(recognized_audio_files)
+try:
+    if list_audio_files[1][0]:
+        recognized_audio_files = list_audio_files[1]
+        create_a_draft(recognized_audio_files)
 
-else:
-
+except IndexError:
     for audio_file in list_audio_files:
         print(audio_file)
 
