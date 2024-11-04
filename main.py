@@ -2,11 +2,10 @@
 import shutil
 import sys
 
-from app.moduls.coordinates import get_starting_coordinates
 from app.moduls.draft import create_a_draft, get_audio_files, get_user_notes
 from app.moduls.foto import get_foto
 from app.moduls.print_to_doc import print_foto, print_travel_notes, print_weather
-from app.moduls.track_image import create_track_image
+from app.moduls.track_and_coordinates import create_track_image, get_starting_coordinates
 from app.moduls.weather import weather_by_terrain
 
 date = input("Укажите дату в формате yyyy-MM-dd: ")

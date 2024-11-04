@@ -1,8 +1,28 @@
-import gpxpy
+﻿import gpxpy
 
 import requests
 
 import staticmaps
+
+
+def get_starting_coordinates(gpx_file_path: str) -> float:
+    '''
+    Эта функция получает координаты начальной точки трека
+    из файла .gpx
+    '''
+    try:
+        with open(gpx_file_path, "r") as file:
+            gpx = gpxpy.parse(file)
+
+        for point in gpx.walk(only_points=True):
+            starting_lat = point.latitude
+            starting_long = point.longitude
+            break
+        return starting_lat, starting_long
+
+    except FileNotFoundError:
+        print('Файл не найден')
+        return None
 
 
 def create_track_image(gpx_file_path: str, img_width: int = 500, img_length: int = 800, zoom: int = 12) -> None:
