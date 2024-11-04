@@ -8,7 +8,8 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Mm
 
 
-def print_weather(weather_and_astro: dict[str, Any], date: str, img_width: int, img_length: int) -> None:
+def print_weather_and_trake(
+        weather_and_astro: dict[str, Any], date: str, img_width: int, img_length: int, distance: float) -> None:
     """
     Эта функция создаёт документ с отчётом и заносит в него миниатюру карты
     с треком и астрономические и погодные данные.
@@ -61,6 +62,10 @@ def print_weather(weather_and_astro: dict[str, Any], date: str, img_width: int, 
 
     par7 = doc.add_paragraph()
     par7.add_run(f'  {weather_and_astro['weatherDesc']}')
+
+    par8 = doc.add_paragraph("  Пройдено: ")
+    doc.paragraphs[8].runs[0].bold = True
+    par8.add_run(f'{distance} км')
 
     doc.save("report.docx")
 
