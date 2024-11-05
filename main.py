@@ -5,13 +5,15 @@ import sys
 from app.moduls.draft import create_a_draft, get_audio_files, get_user_notes
 from app.moduls.foto import get_foto
 from app.moduls.print_to_doc import print_foto, print_travel_notes, print_weather_and_trake
-from app.moduls.track_and_coordinates import create_track_image, get_starting_coordinates
+from app.moduls.track_and_coordinates import calc_distance, create_track_image, get_start_finish_coordinates
 from app.moduls.weather import weather_by_terrain
 
 date = input("Укажите дату в формате yyyy-MM-dd: ")
 gpx_file_path = input("Укажите путь к файлу gpx: ")
 
-starting_point = get_starting_coordinates(gpx_file_path)
+start_finish_point = get_start_finish_coordinates(gpx_file_path)
+
+starting_point = start_finish_point[:2]
 
 if starting_point is None:
     sys.exit(1)
@@ -34,7 +36,7 @@ else:
     img_length = 800
     zoom = 12
 
-distance = create_track_image(gpx_file_path, img_width, img_length, zoom)
+create_track_image(gpx_file_path, img_width, img_length, zoom)
 
 while thumbnail_sett:
     thumbnail_sett = input("Вам нравиться или хотите что-то изменить? да/нет: ")
@@ -52,6 +54,7 @@ while thumbnail_sett:
     else:
         break
 
+distance = calc_distance(start_finish_point[0], start_finish_point[1], start_finish_point[2], start_finish_point[3])
 print_weather_and_trake(weather_and_astro, date, img_width, img_length, distance)
 
 audio_file_path = input("Укажите путь к файлам аудио заметок: ")
