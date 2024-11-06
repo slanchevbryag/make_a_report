@@ -8,106 +8,113 @@ from app.moduls.print_to_doc import print_foto, print_travel_notes, print_weathe
 from app.moduls.track_and_coordinates import calc_distance, create_track_image, get_start_finish_coordinates
 from app.moduls.weather import weather_by_terrain
 
-date = input("Укажите дату в формате yyyy-MM-dd: ")
-gpx_file_path = input("Укажите путь к файлу gpx: ")
 
-start_finish_point = get_start_finish_coordinates(gpx_file_path)
+def weathe_and_track_one_day(date: str, days_travels: int) -> int:
 
-starting_point = start_finish_point[:2]
+    print(date)
+    gpx_file_path = input("Укажите путь к файлу gpx: ")
 
-if starting_point is None:
-    sys.exit(1)
+    start_finish_point = get_start_finish_coordinates(gpx_file_path)
 
-starting_point = ",".join(str(elem) for elem in starting_point)
+    starting_point = start_finish_point[:2]
 
-weather_and_astro = weather_by_terrain(starting_point, date)
+    if starting_point is None:
+        sys.exit(1)
 
-print('Настройки миниатюры по-умолчанию ширина 500, длина 800, приближение 12')
-thumbnail_sett = input("Хотите изменить настройки миниатюры карты? да/нет: ")
+    starting_point = ",".join(str(elem) for elem in starting_point)
 
-if thumbnail_sett.lower() == 'да':
+    weather_and_astro = weather_by_terrain(starting_point, date)
 
-    img_width = int(input("Укажите ширину миниатюры карты: "))
-    img_length = int(input("Укажите длинну миниатюры карты: "))
-    zoom = int(input("Укажите величину приближения карты: "))
-
-else:
-    img_width = 500
-    img_length = 800
-    zoom = 12
-
-create_track_image(gpx_file_path, img_width, img_length, zoom)
-
-while thumbnail_sett:
-    thumbnail_sett = input("Вам нравиться или хотите что-то изменить? да/нет: ")
+    print('Настройки миниатюры по-умолчанию ширина 500, длина 800, приближение 12')
+    thumbnail_sett = input("Хотите изменить настройки миниатюры карты? да/нет: ")
 
     if thumbnail_sett.lower() == 'да':
 
-        img_width = int(input(
-            f"Укажите ширину миниатюры карты (сейчас {img_width}): "))
-        img_length = int(input(
-            f"Укажите длинну миниатюры карты (сейчас {img_length}): "))
-        zoom = int(input(
-            f"Укажите величину приближения карты (сейчас {zoom}): "))
-        create_track_image(gpx_file_path, img_width, img_length, zoom)
+        img_width = int(input("Укажите ширину миниатюры карты: "))
+        img_length = int(input("Укажите длинну миниатюры карты: "))
+        zoom = int(input("Укажите величину приближения карты: "))
 
     else:
-        break
+        img_width = 500
+        img_length = 800
+        zoom = 12
 
-distance = calc_distance(start_finish_point[0], start_finish_point[1], start_finish_point[2], start_finish_point[3])
-print_weather_and_trake(weather_and_astro, date, img_width, img_length, distance)
+    create_track_image(gpx_file_path, img_width, img_length, zoom)
 
-audio_file_path = input("Укажите путь к файлам аудио заметок: ")
+    while thumbnail_sett:
+        thumbnail_sett = input("Вам нравиться или хотите что-то изменить? да/нет: ")
 
-list_audio_files = get_audio_files(audio_file_path, date)
+        if thumbnail_sett.lower() == 'да':
 
-try:
-    if list_audio_files[1][0]:
-        recognized_audio_files = list_audio_files[1]
-        create_a_draft(recognized_audio_files)
+            img_width = int(input(
+                f"Укажите ширину миниатюры карты (сейчас {img_width}): "))
+            img_length = int(input(
+                f"Укажите длинну миниатюры карты (сейчас {img_length}): "))
+            zoom = int(input(
+                f"Укажите величину приближения карты (сейчас {zoom}): "))
+            create_track_image(gpx_file_path, img_width, img_length, zoom)
 
-except IndexError:
-    for audio_file in list_audio_files:
-        print(audio_file)
-
-    while True:
-        user_files = input("Введите через запятую названия файлов вручную, используя список выше: ")
-
-        trake_notes = get_user_notes(user_files, audio_file_path, list_audio_files)
-        if trake_notes is None:
-            continue
         else:
-            create_a_draft(trake_notes)
             break
 
-print('Откройте файл draft и сделайти правки в черновике.')
-draft_edits = input('Вы готовы внести ваши путевые заметки в отчёт? да/нет: ')
+    distance = calc_distance(start_finish_point[0], start_finish_point[1], start_finish_point[2], start_finish_point[3])
+    print_weather_and_trake(weather_and_astro, date, img_width, img_length, distance, days_travels)
 
-if draft_edits.lower() == "да":
-    print_travel_notes(img_width, img_length)
+    return img_width, img_length
 
-path_to_foto = input("Укажите путь к файлам с фото: ")
 
-list_of_fotofiles = get_foto(path_to_foto, date)
+def apply_travel_notes_one_day(date: str, audio_file_path: str, img_width: int, img_length: int) -> None:
 
-os.makedirs('temp', exist_ok=True)
+    list_audio_files = get_audio_files(audio_file_path, date)
 
-if list_of_fotofiles is None:
-    print("Добавьте файлы в папку temp в ручную")
+    try:
+        if list_audio_files[1][0]:
+            recognized_audio_files = list_audio_files[1]
+            create_a_draft(recognized_audio_files)
 
-num_file = 1
-while num_file <= len(list_of_fotofiles):
-    for fotofile in list_of_fotofiles:
-        temp_path = os.path.join('temp', f'{num_file}.jpg')
-        shutil.copy2(fotofile, temp_path)
-        num_file += 1
+    except IndexError:
+        for audio_file in list_audio_files:
+            print(audio_file)
 
-print("В папке temp оставьте только те фото, которые хотите добавить в отчёт")
-done_img = input("Вы готовы добавить фото в отчёт да/нет: ")
+        while True:
+            user_files = input("Введите через запятую названия файлов вручную, используя список выше: ")
 
-if done_img.lower() == "да":
-    print_foto()
-else:
-    print("Фото не занесены в отчёт")
+            trake_notes = get_user_notes(user_files, audio_file_path, list_audio_files)
+            if trake_notes is None:
+                continue
+            else:
+                create_a_draft(trake_notes)
+                break
 
-shutil.rmtree("temp")
+    print('Откройте файл draft и сделайти правки в черновике.')
+    draft_edits = input('Вы готовы внести ваши путевые заметки в отчёт? да/нет: ')
+
+    if draft_edits.lower() == "да":
+        print_travel_notes(img_width, img_length)
+
+
+def apply_travel_foto_one_day(date: str, path_to_foto: str) -> None:
+
+    list_of_fotofiles = get_foto(path_to_foto, date)
+
+    os.makedirs('temp', exist_ok=True)
+
+    if list_of_fotofiles is None:
+        print("Добавьте файлы в папку temp в ручную")
+
+    num_file = 1
+    while num_file <= len(list_of_fotofiles):
+        for fotofile in list_of_fotofiles:
+            temp_path = os.path.join('temp', f'{num_file}.jpg')
+            shutil.copy2(fotofile, temp_path)
+            num_file += 1
+
+    print("В папке temp оставьте только те фото, которые хотите добавить в отчёт")
+    done_img = input("Вы готовы добавить фото в отчёт да/нет: ")
+
+    if done_img.lower() == "да":
+        print_foto()
+    else:
+        print("Фото не занесены в отчёт")
+
+    shutil.rmtree("temp")

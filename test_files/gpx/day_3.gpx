@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" creator="http://nakarte.me" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd" version="1.1">
+	<metadata>
+		<time>2022-10-15T15:23:46.101Z</time>
+	</metadata>
+	<trk>
+		<name>День 3</name>
+		<trkseg>
+			<trkpt lat="61.697849" lon="31.006594"><time>1970-01-01T00:00:01.000Z</time></trkpt>
+			<trkpt lat="61.702895" lon="30.952778"><time>1970-01-01T00:00:01.000Z</time></trkpt>
+			<trkpt lat="61.696059" lon="30.927286"><time>1970-01-01T00:00:01.000Z</time></trkpt>
+			<trkpt lat="61.697564" lon="30.927801"><time>1970-01-01T00:00:01.000Z</time></trkpt>
+			<trkpt lat="61.699436" lon="30.923510"><time>1970-01-01T00:00:01.000Z</time></trkpt>
+			<trkpt lat="61.700942" lon="30.919733"><time>1970-01-01T00:00:01.000Z</time></trkpt>
+			<trkpt lat="61.702163" lon="30.915785"><time>1970-01-01T00:00:01.000Z</time></trkpt>
+			<trkpt lat="61.703017" lon="30.908918"><time>1970-01-01T00:00:01.000Z</time></trkpt>
+			<trkpt lat="61.705214" lon="30.897846"><time>1970-01-01T00:00:01.000Z</time></trkpt>
+			<trkpt lat="61.705336" lon="30.890551"><time>1970-01-01T00:00:01.000Z</time></trkpt>
+			<trkpt lat="61.703465" lon="30.878448"><time>1970-01-01T00:00:01.000Z</time></trkpt>
+			<trkpt lat="61.701674" lon="30.871840"><time>1970-01-01T00:00:01.000Z</time></trkpt>
+			<trkpt lat="61.702936" lon="30.862398"><time>1970-01-01T00:00:01.000Z</time></trkpt>
+			<trkpt lat="61.704767" lon="30.856733"><time>1970-01-01T00:00:01.000Z</time></trkpt>
+			<trkpt lat="61.706231" lon="30.852699"><time>1970-01-01T00:00:01.000Z</time></trkpt>
+			<trkpt lat="61.707289" lon="30.849266"><time>1970-01-01T00:00:01.000Z</time></trkpt>
+			<trkpt lat="61.707004" lon="30.845919"><time>1970-01-01T00:00:01.000Z</time></trkpt>
+			<trkpt lat="61.706028" lon="30.845060"><time>1970-01-01T00:00:01.000Z</time></trkpt>
+		</trkseg>
+	</trk>
+</gpx>
