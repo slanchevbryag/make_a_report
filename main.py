@@ -68,7 +68,7 @@ def apply_travel_notes_one_day(date: str, audio_file_path: str, img_width: int, 
     list_audio_files = get_audio_files(audio_file_path, date)
 
     try:
-        if list_audio_files[1][0]:
+        if list_audio_files[1][0][1]:
             recognized_audio_files = list_audio_files[1]
             create_a_draft(recognized_audio_files)
 
@@ -91,6 +91,8 @@ def apply_travel_notes_one_day(date: str, audio_file_path: str, img_width: int, 
 
     if draft_edits.lower() == "да":
         print_travel_notes(img_width, img_length)
+    else:
+        print("Путевые заметки не внесены!")
 
 
 def apply_travel_foto_one_day(date: str, path_to_foto: str) -> None:
@@ -100,14 +102,14 @@ def apply_travel_foto_one_day(date: str, path_to_foto: str) -> None:
     os.makedirs('temp', exist_ok=True)
 
     if list_of_fotofiles is None:
-        print("Добавьте файлы в папку temp в ручную")
-
-    num_file = 1
-    while num_file <= len(list_of_fotofiles):
-        for fotofile in list_of_fotofiles:
-            temp_path = os.path.join('temp', f'{num_file}.jpg')
-            shutil.copy2(fotofile, temp_path)
-            num_file += 1
+        input("Добавьте файлы в папку temp в ручную и нажмите Enter")
+    else:
+        num_file = 1
+        while num_file <= len(list_of_fotofiles):
+            for fotofile in list_of_fotofiles:
+                temp_path = os.path.join('temp', f'{num_file}.jpg')
+                shutil.copy2(fotofile, temp_path)
+                num_file += 1
 
     print("В папке temp оставьте только те фото, которые хотите добавить в отчёт")
     done_img = input("Вы готовы добавить фото в отчёт да/нет: ")
