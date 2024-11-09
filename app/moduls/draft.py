@@ -20,7 +20,7 @@ def get_audio_files(audio_file_path: str, date: str) -> list:
             audio_files.append(file_in_dir)
 
     if audio_files == []:
-        print("Аудио файлы не найдены")
+        print(f"Аудио файлы не найдены: {audio_file_path}")
         return None
 
     for audio_file in audio_files:
@@ -29,7 +29,7 @@ def get_audio_files(audio_file_path: str, date: str) -> list:
             audio_files_with_date.append(audio_file_with_date)
 
     if audio_files_with_date == []:
-        print("Файлы за данную дату не найдены.")
+        print("Аудио файлы за данную дату не найдены.")
         audio_files.sort()
         return audio_files
 
@@ -53,8 +53,9 @@ def create_a_draft(recognized_audio_files: list) -> None:
             with open("draft.txt", "a", encoding="utf-8") as f:
                 f.write(f"\n{note}")
 
-    except Exception:
+    except Exception as err:
         print("Упс! Что-то пошло не так!")
+        print(f'An error occurred: {err}')
         return None
 
 

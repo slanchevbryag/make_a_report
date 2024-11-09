@@ -5,18 +5,17 @@ import sys
 from app.moduls.draft import create_a_draft, get_audio_files, get_user_notes
 from app.moduls.foto import get_foto
 from app.moduls.print_to_doc import print_foto, print_travel_notes, print_weather_and_trake
-from app.moduls.track_and_coordinates import calc_distance, create_track_image, get_start_finish_coordinates
+from app.moduls.track_and_coordinates import calc_distance, ckeck_track_date, create_track_image, get_gpx_points_coord
 from app.moduls.weather import weather_by_terrain
 
 
-def weathe_and_track_one_day(date: str, days_travels: int) -> int:
+def weathe_and_track_one_day(date: str, days_travels: int, gpx_files_path: str) -> int:
 
     print(date)
-    gpx_file_path = input("Укажите путь к файлу gpx: ")
 
-    start_finish_point = get_start_finish_coordinates(gpx_file_path)
+    gpx_file_path = ckeck_track_date(gpx_files_path, date)
 
-    starting_point = start_finish_point[:2]
+    starting_point = get_gpx_points_coord(gpx_file_path)
 
     if starting_point is None:
         sys.exit(1)
@@ -57,7 +56,7 @@ def weathe_and_track_one_day(date: str, days_travels: int) -> int:
         else:
             break
 
-    distance = calc_distance(start_finish_point[0], start_finish_point[1], start_finish_point[2], start_finish_point[3])
+    distance = calc_distance(gpx_file_path)
     print_weather_and_trake(weather_and_astro, date, img_width, img_length, distance, days_travels)
 
     return img_width, img_length

@@ -22,7 +22,7 @@ def get_foto(path_to_files: str, date: str) -> list:
             jpg_files_with_path.append(path_to_foto)
 
     if jpg_files_with_path == []:
-        print("JPG файлы не найдены")
+        print(f"JPG файлы не найдены: {path_to_files}")
         return None
 
     for path_to_foto in jpg_files_with_path:
@@ -31,7 +31,7 @@ def get_foto(path_to_files: str, date: str) -> list:
             jpg_files_with_date.append(path_to_foto)
 
     if jpg_files_with_date == []:
-        print("Файлы за данную дату не найдены.")
+        print("JPG файлы за данную дату не найдены.")
         return None
 
     jpg_files_with_date.sort()

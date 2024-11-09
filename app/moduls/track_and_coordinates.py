@@ -1,4 +1,8 @@
-﻿import gpxpy
+﻿import os
+
+from app.utilities.get_meta import get_date_gpx
+
+import gpxpy
 import gpxpy.geo
 import gpxpy.gpx
 
@@ -7,29 +11,63 @@ import requests
 import staticmaps
 
 
-def get_start_finish_coordinates(gpx_file_path: str) -> float:
+def ckeck_track_date(gpx_files_path: str, date: str) -> str:
     '''
-    Эта функция получает координаты начальной и конечной точук трека
+    Эта функция проверяет есть ли в указанной папке треки за текущую дату и
+    возвращает путь к найденному файлу или просит пользователя ввести его вручную.
+    '''
+
+    gpx_files = []
+    exstension = (".gpx")
+
+    for file_in_dir in os.listdir(path=gpx_files_path):
+        if file_in_dir.lower().endswith(exstension):
+            gpx_files.append(file_in_dir)
+
+    if gpx_files == []:
+        print("gpx файлы не найдены")
+        return None
+
+    for gpx_file in gpx_files:
+        gpx_path = os.path.join(gpx_files_path, gpx_file)
+        if date == get_date_gpx(gpx_path):
+            return gpx_path
+
+    for gpx_file in gpx_files:
+        print(gpx_file)
+
+    print("gpx файлы за данную дату не найдены.")
+
+    while True:
+        user_gpx_file = input("Введите имя файла из списка: ")
+
+        if user_gpx_file in gpx_files:
+            return os.path.join(gpx_files_path, user_gpx_file)
+            break
+
+        else:
+            print(f'Файл {user_gpx_file} не найден в списке. Проверте регистр и указали ли вы расширение.')
+
+
+def get_gpx_points_coord(gpx_file_path: str) -> float:
+    '''
+    Эта функция получает координаты начальной точуки трека
     из файла .gpx
     '''
+
     try:
         with open(gpx_file_path, "r") as file:
             gpx = gpxpy.parse(file)
 
     except FileNotFoundError:
-        print('Файл не найден')
+        print(f'gpx файл не найден: {gpx_file_path}')
         return None
 
     for point in gpx.walk(only_points=True):
         starting_lat = point.latitude
         starting_long = point.longitude
         break
-
-    for point in gpx.walk(only_points=True):
-        finish_point_lat = point.latitude
-        finish_point_long = point.longitude
-
-    return starting_lat, starting_long, finish_point_lat, finish_point_long
+    return starting_lat, starting_long
 
 
 def create_track_image(gpx_file_path: str, img_width: int = 500, img_length: int = 800, zoom: int = 12) -> float:
@@ -73,13 +111,11 @@ def create_track_image(gpx_file_path: str, img_width: int = 500, img_length: int
         print('Ошибка подключения к OpenStreetMap')
 
 
-def calc_distance(
-        start_point_lat: float, start_point_long: float, finish_point_lat: float, finish_point_long: float) -> float:
+def calc_distance(gpx_path: str) -> float:
     '''
-    Эта функция подсчитывает пройденную дистанцию.
+    Эта функция считает пройденное расстояние.
     '''
-
-    distance = gpxpy.geo.haversine_distance(start_point_lat, start_point_long, finish_point_lat, finish_point_long)
-    distance = round(distance/1000, 1)
-
-    return distance
+    with open(gpx_path, "r") as file:
+        gpx = gpxpy.parse(file)
+        distance = gpx.length_2d()
+        return round(distance/1000, 1)
