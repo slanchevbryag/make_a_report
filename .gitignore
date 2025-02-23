@@ -15,4 +15,10 @@ map.png
 __pycache__
 
 # Другое
-ya_map.py
+﻿env/
+config.py
+tracks/
+.ipynb
+.ipynb_checkpoints
+__pycache__
+Janisjoki/
